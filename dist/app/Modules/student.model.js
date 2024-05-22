@@ -7,14 +7,14 @@ const userNameSchema = new mongoose_1.Schema({
     middleName: { type: String },
     lastName: { type: String, required: true }
 });
-const guardianSchema = new mongoose_1.Schema({
+const TGuardianSchema = new mongoose_1.Schema({
     fatherName: { type: String, required: true },
     fatherContactNo: { type: String, required: true },
     fatherOccupation: { type: String, required: true },
     motherName: { type: String, required: true },
     motherContactNo: { type: String, required: true },
 });
-const LocalGuardianSchema = new mongoose_1.Schema({
+const LocalTGuardianSchema = new mongoose_1.Schema({
     name: { type: String },
     occupation: { type: String },
     address: { type: String }
@@ -32,8 +32,8 @@ const studentSchema = new mongoose_1.Schema({
     bloodGroup: ["A+", "A-", "B+", "B-", "O+", 'O-', "AB+", "AB-"],
     permanentAddress: { type: String, required: true },
     presentAddress: { type: String, required: true },
-    guardian: guardianSchema,
-    localGuardian: LocalGuardianSchema,
+    TGuardian: TGuardianSchema,
+    localTGuardian: LocalTGuardianSchema,
     profileImg: { type: String, required: true },
     isActive: ["active", "in"]
 });
