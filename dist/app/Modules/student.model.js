@@ -22,6 +22,7 @@ const LocalTGuardianSchema = new mongoose_1.Schema({
 const studentSchema = new mongoose_1.Schema({
     id: { type: String },
     name: userNameSchema,
+
     roll: { type: Number, required: true },
     department: { type: String, required: true },
     semester: { type: String, required: true },

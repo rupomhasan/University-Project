@@ -25,8 +25,6 @@ export default [
       ...tse.configs.recommended.rules,
       ...prettierConfig.rules,
       "prettier/prettier": "error",
-      "semi": ["error", "always"],
-      "quotes": ["error", "single"],
       "no-unused-expressions": "error",
       "no-unused-vars": "error",
       "prefer-const": "error",
