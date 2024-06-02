@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const TUserZodSchema = z.object({
+const userZodSchema = z.object({
   id: z.string(),
   password: z
     .string({
@@ -11,4 +11,5 @@ const TUserZodSchema = z.object({
     .optional(),
 });
 
-export const UserValidationSchema = TUserZodSchema;
+export const UserValidationSchema = userZodSchema;
+ 

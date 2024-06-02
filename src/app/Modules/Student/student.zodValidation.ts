@@ -42,6 +42,7 @@ export const StudentValidationSchema = z.object({
       presentAddress: z.string(),
       TGuardian: TGuardianValidationSchema,
       localTGuardian: LocalTGuardianValidationSchema,
+      admissionSemester: z.string(),
       profileImg: z.string(),
     })
   })
