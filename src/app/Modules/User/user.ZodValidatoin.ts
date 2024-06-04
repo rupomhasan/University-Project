@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const userZodSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   password: z
     .string({
       invalid_type_error: "Password must be a string",
@@ -12,4 +12,3 @@ const userZodSchema = z.object({
 });
 
 export const UserValidationSchema = userZodSchema;
- 

@@ -13,11 +13,22 @@ const createStudent = catchAsync(async (req, res, next) => {
     //   const zodParsedData = StudentZodSchema.parse(studentData);
     const result = await userServices.createStudentIntoDB(password, student);
 
+    if (result) {
+        sendResponse(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "User Created Successfully ",
+            data: result
+
+        })
+    }
+
+
     sendResponse(res, {
-        statusCode: httpStatus.OK,
-        success: true,
-        message: "User Created Successfully ",
-        data: result
+        statusCode: httpStatus.NOT_FOUND,
+        success: false,
+        message: "User not available",
+        data: null
 
     })
 });

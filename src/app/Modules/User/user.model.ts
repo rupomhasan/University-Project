@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { Schema, model } from "mongoose";
 import { TUser } from "./user.interface";
 import config from "../../config";
+import httpStatus from "http-status";
 
 const userSchema = new Schema<TUser>(
   {
@@ -11,7 +12,7 @@ const userSchema = new Schema<TUser>(
     },
     password: {
       type: String,
-      
+
     },
     needPasswordChange: {
       type: Boolean,
@@ -47,5 +48,22 @@ userSchema.pre("save", async function (next) {
 userSchema.post("save", function (doc, next) {
   (doc.password = ""), next();
 });
+
+
+
+userSchema.pre("findOneAndUpdate", async function (next) {
+
+
+  const query = this.getQuery()
+  console.log(query)
+  const result = await User.findOne({ _id: query })
+
+  if (!result?.isDeleted) {
+    throw new AppError(httpStatus.NOT_FOUND, 'No user available')
+  }
+
+  next()
+
+})
 
 export const User = model<TUser>("User", userSchema);

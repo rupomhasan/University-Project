@@ -6,6 +6,7 @@ import {
   TStudentModel,
   TUserName,
 } from "./student.interface";
+import httpStatus from "http-status";
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -41,7 +42,6 @@ const LocalTGuardianSchema = new Schema<TLocalTGuardian>({
 });
 
 const studentSchema = new Schema<TStudent, TStudentModel>({
-  id: { type: String, unique: true, required: true },
   user: {
     type: Schema.Types.ObjectId,
     required: [true, "User id is required"],
@@ -50,7 +50,6 @@ const studentSchema = new Schema<TStudent, TStudentModel>({
   },
   name: { type: userNameSchema, required: [true, "Name is required"] },
   roll: { type: Number, required: true },
-
   department: { type: String, required: true },
   semester: { type: String, required: true },
   group: { type: String, required: true },
@@ -79,11 +78,18 @@ const studentSchema = new Schema<TStudent, TStudentModel>({
     type: Schema.Types.ObjectId,
     ref: "AcademicSemester",
   },
+  academicDepartment: {
+    type: Schema.Types.ObjectId,
+    ref: "academicDepartment",
+  },
   isDeleted: {
     type: Boolean,
     default: false,
   },
-});
+}, {
+  timestamps: true
+}
+);
 // creating a custom methods
 
 studentSchema.statics.isUserExists = async function (id: string) {
@@ -124,6 +130,19 @@ studentSchema.pre("aggregate", function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
+
+studentSchema.pre("findOneAndUpdate", async function (next) {
+
+  const query = this.getQuery()
+  const result = await Student.findOne({ user: query })
+
+  if (!result?.isDeleted === true) {
+    throw new AppError(httpStatus.NOT_FOUND, 'No Student available')
+  }
+
+  next()
+
+})
 
 // creating a custom methods
 

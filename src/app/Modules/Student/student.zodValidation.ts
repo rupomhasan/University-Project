@@ -27,7 +27,7 @@ export const LocalTGuardianValidationSchema = z.object({
 // Validation schema for Student
 export const StudentValidationSchema = z.object({
   body: z.object({
-    password: z.string().max(20),
+    password: z.string().max(20).optional(),
     student: z.object({
       name: UserNameValidationSchema,
       roll: z.number(),
@@ -43,6 +43,7 @@ export const StudentValidationSchema = z.object({
       TGuardian: TGuardianValidationSchema,
       localTGuardian: LocalTGuardianValidationSchema,
       admissionSemester: z.string(),
+      academicDepartment: z.string(),
       profileImg: z.string(),
     })
   })

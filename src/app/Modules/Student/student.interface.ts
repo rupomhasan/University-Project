@@ -36,10 +36,11 @@ export type TStudent = {
   bloodGroup?: "A+" | "A-" | "B+" | "B-" | "O+" | "O-" | "AB+" | "AB-";
   presentAddress: string;
   permanentAddress: string;
-  TGuardian: TGuardian;
-  localTGuardian: TLocalTGuardian;
+  guardian: TGuardian;
+  localGuardian: TLocalTGuardian;
   profileImg?: string;
   admissionSemester: Types.ObjectId;
+  academicDepartment: Types.ObjectId
   isDeleted: boolean;
 };
 // for creating  static

@@ -5,7 +5,7 @@ export type TSemesterCode = "01" | "02" | "03"
 
 
 export type TAcademicSemester = {
-    id: string
+   
     name: TSemesterName,
     code: TSemesterCode,
     year: string,

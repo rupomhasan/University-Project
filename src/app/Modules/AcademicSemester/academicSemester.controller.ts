@@ -29,7 +29,7 @@ const getAllSemester = catchAsync(async (req, res, next) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Academic semester created successfully ",
+        message: "",
         data: result
     })
 
