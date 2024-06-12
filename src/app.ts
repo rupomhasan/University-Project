@@ -1,5 +1,5 @@
-import express, { Application, NextFunction, Request, Response } from "express";
-import { StudentRoutes } from "./app/Modules/Student/student.router";
+import express, { Application, Request, Response } from "express";
+
 import cors from "cors";
 import { globalErrorHandler } from "./app/Middlewares/GlobalErrorHandler";
 import { notFoundRoute } from "./app/Middlewares/NotFoundRoute";
@@ -13,15 +13,13 @@ app.use(cors());
 
 // query
 
-
-
 app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("hello");
 });
 
-app.use(globalErrorHandler)
-app.use(notFoundRoute)
+app.use(globalErrorHandler);
+app.use(notFoundRoute);
 
 export default app;

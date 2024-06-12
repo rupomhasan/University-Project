@@ -45,8 +45,8 @@ export const StudentValidationSchema = z.object({
       admissionSemester: z.string(),
       academicDepartment: z.string(),
       profileImg: z.string(),
-    })
-  })
+    }),
+  }),
 });
 
 export const studentValidations = StudentValidationSchema;

@@ -12,7 +12,6 @@ const userSchema = new Schema<TUser>(
     },
     password: {
       type: String,
-
     },
     needPasswordChange: {
       type: Boolean,
@@ -49,21 +48,16 @@ userSchema.post("save", function (doc, next) {
   (doc.password = ""), next();
 });
 
-
-
 userSchema.pre("findOneAndUpdate", async function (next) {
-
-
-  const query = this.getQuery()
-  console.log(query)
-  const result = await User.findOne({ _id: query })
+  const query = this.getQuery();
+  console.log(query);
+  const result = await User.findOne({ _id: query });
 
   if (!result?.isDeleted) {
-    throw new AppError(httpStatus.NOT_FOUND, 'No user available')
+    throw new AppError(httpStatus.NOT_FOUND, "No user available");
   }
 
-  next()
-
-})
+  next();
+});
 
 export const User = model<TUser>("User", userSchema);

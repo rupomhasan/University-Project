@@ -26,7 +26,7 @@ const userNameSchema = new Schema<TUserName>({
   lastName: { type: String, required: [true, "Last Name is required"] },
 });
 
-const TGuardianSchema = new Schema<TGuardian>({
+const guardianSchema = new Schema<TGuardian>({
   fatherName: { type: String, required: true },
   fatherContactNo: { type: String, required: true },
   fatherOccupation: { type: String, required: true },
@@ -35,60 +35,62 @@ const TGuardianSchema = new Schema<TGuardian>({
   motherOccupation: { type: String, required: true },
 });
 
-const LocalTGuardianSchema = new Schema<TLocalTGuardian>({
+const localTGuardianSchema = new Schema<TLocalTGuardian>({
   name: { type: String },
   occupation: { type: String },
   address: { type: String },
 });
 
-const studentSchema = new Schema<TStudent, TStudentModel>({
-  user: {
-    type: Schema.Types.ObjectId,
-    required: [true, "User id is required"],
-    unique: true,
-    ref: "User",
-  },
-  name: { type: userNameSchema, required: [true, "Name is required"] },
-  roll: { type: Number, required: true },
-  department: { type: String, required: true },
-  semester: { type: String, required: true },
-  group: { type: String, required: true },
-  gender: {
-    type: String,
-    enum: {
-      values: ["female", "male", "other"],
-      //  way 1  :    // message: "The gender field can only be one of the following :'male,'female','other' "
-      message: "{VALUE} is not valid",
+const studentSchema = new Schema<TStudent, TStudentModel>(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, "User id is required"],
+      unique: true,
+      ref: "User",
     },
-    required: true,
-  },
-  contactNo: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  bloodGroup: {
-    type: String,
-    enum: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
-  },
-  permanentAddress: { type: String, required: true },
-  presentAddress: { type: String, required: true },
-  TGuardian: { type: TGuardianSchema, required: true },
+    name: { type: userNameSchema, required: [true, "Name is required"] },
+    roll: { type: Number, required: true },
+    department: { type: String, required: true },
+    semester: { type: String, required: true },
+    group: { type: String, required: true },
+    gender: {
+      type: String,
+      enum: {
+        values: ["female", "male", "other"],
+        //  way 1  :    // message: "The gender field can only be one of the following :'male,'female','other' "
+        message: "{VALUE} is not valid",
+      },
+      required: true,
+    },
+    contactNo: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    bloodGroup: {
+      type: String,
+      enum: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
+    },
+    permanentAddress: { type: String, required: true },
+    presentAddress: { type: String, required: true },
+    guardian: { type: guardianSchema, required: true },
 
-  localTGuardian: { type: LocalTGuardianSchema, required: true },
-  profileImg: { type: String, required: true },
-  admissionSemester: {
-    type: Schema.Types.ObjectId,
-    ref: "AcademicSemester",
+    localGuardian: { type: localTGuardianSchema, required: true },
+    profileImg: { type: String, required: true },
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: "AcademicSemester",
+    },
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      ref: "academicDepartment",
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
-  academicDepartment: {
-    type: Schema.Types.ObjectId,
-    ref: "academicDepartment",
+  {
+    timestamps: true,
   },
-  isDeleted: {
-    type: Boolean,
-    default: false,
-  },
-}, {
-  timestamps: true
-}
 );
 // creating a custom methods
 
@@ -132,17 +134,15 @@ studentSchema.pre("aggregate", function (next) {
 });
 
 studentSchema.pre("findOneAndUpdate", async function (next) {
-
-  const query = this.getQuery()
-  const result = await Student.findOne({ user: query })
+  const query = this.getQuery();
+  const result = await Student.findOne({ user: query });
 
   if (!result?.isDeleted === true) {
-    throw new AppError(httpStatus.NOT_FOUND, 'No Student available')
+    throw new AppError(httpStatus.NOT_FOUND, "No Student available");
   }
 
-  next()
-
-})
+  next();
+});
 
 // creating a custom methods
 
@@ -151,5 +151,10 @@ studentSchema.pre("findOneAndUpdate", async function (next) {
 
 //     return existingStudent
 // }
+
+studentSchema.virtual('fullName').get(function () {
+  return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName;
+});
+
 
 export const Student = model<TStudent, TStudentModel>("Student", studentSchema);
