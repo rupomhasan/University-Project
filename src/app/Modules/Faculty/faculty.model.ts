@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from "mongoose";
 
 import { FacultyModel, TFaculty } from "./faculty.interface";
 import { BloodGroup, Gender } from "./faculty.constant";
-import { TUserName } from "../../CommonTypes/Types";
+import { TUserName } from "../../Common/Types";
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {

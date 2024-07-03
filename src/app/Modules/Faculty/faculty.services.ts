@@ -7,12 +7,18 @@ import { TFaculty } from "./faculty.interface";
 import { Faculty } from "./faculty.model";
 import { AppError } from "../../Errors/AppError";
 import { User } from "../User/user.model";
+import { FacultySearchAbleFields } from "./faculty.constant";
 
 const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
   const facultyQuery = new QueryBuilder(
     Faculty.find().populate("academicDepartment"),
     query,
-  );
+  )
+    .search(FacultySearchAbleFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
   const result = await facultyQuery.modelQuery;
   return result;
 };
@@ -50,8 +56,8 @@ const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
 };
 
 const deleteFacultyFromDB = async (id: string) => {
+  console.log(id);
   const session = await mongoose.startSession();
-
   try {
     session.startTransaction();
 
@@ -73,7 +79,7 @@ const deleteFacultyFromDB = async (id: string) => {
     }
 
     const deletedUser = await User.findOneAndUpdate(
-      { _id: userId },
+      userId,
       { isDeleted: true },
       { new: true, session },
     );

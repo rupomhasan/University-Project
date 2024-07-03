@@ -53,10 +53,8 @@ userSchema.post("save", function (doc, next) {
 
 userSchema.pre("findOneAndUpdate", async function (next) {
   const query = this.getQuery();
-
-  const result = await User.findOne({ _id: query });
-
-  if (!result?.isDeleted) {
+  const result = await User.findById(query._id);
+  if (result?.isDeleted) {
     throw new AppError(httpStatus.NOT_FOUND, "No user available");
   }
 

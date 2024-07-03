@@ -1,4 +1,4 @@
-import { TGender } from "./faculty.interface";
+import { TGender } from "../../Common/Types";
 
 export const Gender: TGender[] = ["male", "female", "other"];
 

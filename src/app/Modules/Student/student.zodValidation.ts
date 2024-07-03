@@ -1,11 +1,5 @@
 import { z } from "zod";
-
-// Validation schema for UserName
-export const UserNameValidationSchema = z.object({
-  firstName: z.string().min(3).max(20),
-  middleName: z.string().optional(),
-  lastName: z.string().min(1),
-});
+import { createUserNameValidationSchema } from "../../Common/validation";
 
 // Validation schema for TGuardian
 export const TGuardianValidationSchema = z.object({
@@ -29,7 +23,7 @@ export const StudentValidationSchema = z.object({
   body: z.object({
     password: z.string().max(20).optional(),
     student: z.object({
-      name: UserNameValidationSchema,
+      name: createUserNameValidationSchema,
       roll: z.number(),
       department: z.string(),
       semester: z.string(),

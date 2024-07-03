@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
-import { TBloodGroup, TGender, TUserName } from "../../CommonTypes/Types";
+import { TBloodGroup, TGender, TUserName } from "../../Common/Types";
 
 export type TGuardian = {
   fatherName: string;
