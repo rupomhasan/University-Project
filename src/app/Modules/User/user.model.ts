@@ -1,8 +1,11 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-this-alias */
 import bcrypt from "bcryptjs";
 import { Schema, model } from "mongoose";
 import { TUser } from "./user.interface";
 import config from "../../config";
 import httpStatus from "http-status";
+import { AppError } from "../../Errors/AppError";
 
 const userSchema = new Schema<TUser>(
   {
@@ -50,7 +53,7 @@ userSchema.post("save", function (doc, next) {
 
 userSchema.pre("findOneAndUpdate", async function (next) {
   const query = this.getQuery();
-  console.log(query);
+
   const result = await User.findOne({ _id: query });
 
   if (!result?.isDeleted) {

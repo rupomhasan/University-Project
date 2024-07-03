@@ -1,13 +1,11 @@
+/* eslint-disable no-constant-binary-expression */
 import httpStatus from "http-status";
 
 import { StudentServices } from "./student.services";
 import { sendResponse } from "../../Utils/sendResponse";
 import catchAsync from "../../Utils/catchAsync";
 
-const getAllStudents = catchAsync(async (req, res, next) => {
-
-
-
+const getAllStudents = catchAsync(async (req, res) => {
   const result = await StudentServices.getAllStudentsFromDB(req.query);
 
   sendResponse(res, {

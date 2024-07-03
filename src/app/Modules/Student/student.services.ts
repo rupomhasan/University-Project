@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 import { Student } from "./student.model";
 import httpStatus from "http-status";
@@ -6,9 +5,9 @@ import { User } from "../User/user.model";
 import { TStudent } from "./student.interface";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { studentSearchAbleFields } from "./student.constant";
+import { AppError } from "../../Errors/AppError";
 
-const getAllStudentsFromDB = async (query: Record<string, unknown>,) => {
-
+const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   /*  const queryObj = { ...query }
    let searchTerm = "";
    if (query?.searchTerm) {
@@ -63,18 +62,25 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>,) => {
  
    return fieldsQuery; */
 
-
-  const studentQuery = new QueryBuilder(Student.find().populate("user")
-    .populate("admissionSemester")
-    .populate({
-      path: "academicDepartment",
-      populate: {
-        path: "academicFaculty",
-      },
-    }), query).search(studentSearchAbleFields).filter().sort().pagination().fields()
+  const studentQuery = new QueryBuilder(
+    Student.find()
+      .populate("user")
+      .populate("admissionSemester")
+      .populate({
+        path: "academicDepartment",
+        populate: {
+          path: "academicFaculty",
+        },
+      }),
+    query,
+  )
+    .search(studentSearchAbleFields)
+    .filter()
+    .sort()
+    .pagination()
+    .fields();
   const result = await studentQuery.modelQuery;
-  return result
-
+  return result;
 };
 
 const getSingleStudentFromDB = async (id: string) => {

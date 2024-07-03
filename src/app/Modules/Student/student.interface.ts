@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
+import { TBloodGroup, TGender, TUserName } from "../../CommonTypes/Types";
 
 export type TGuardian = {
   fatherName: string;
@@ -15,12 +17,6 @@ export type TLocalTGuardian = {
   address: string;
 };
 
-export type TUserName = {
-  firstName: string;
-  middleName?: string;
-  lastName: string;
-};
-
 export type TStudent = {
   id: string;
   name: TUserName;
@@ -30,10 +26,10 @@ export type TStudent = {
   department: string;
   semester: string;
   group: string;
-  gender: "male" | "female" | "other";
+  gender: TGender;
   contactNo: string;
   email: string;
-  bloodGroup?: "A+" | "A-" | "B+" | "B-" | "O+" | "O-" | "AB+" | "AB-";
+  bloodGroup?: TBloodGroup;
   presentAddress: string;
   permanentAddress: string;
   guardian: TGuardian;

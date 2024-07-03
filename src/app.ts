@@ -1,9 +1,10 @@
 import express, { Application, Request, Response } from "express";
 
 import cors from "cors";
-import { globalErrorHandler } from "./app/Middlewares/GlobalErrorHandler";
+
 import { notFoundRoute } from "./app/Middlewares/NotFoundRoute";
 import { router } from "./app/Routes";
+import globalErrorHandler from "./app/Middlewares/GlobalErrorHandler";
 
 const app: Application = express();
 

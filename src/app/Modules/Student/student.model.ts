@@ -7,6 +7,7 @@ import {
   TUserName,
 } from "./student.interface";
 import httpStatus from "http-status";
+import { AppError } from "../../Errors/AppError";
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -49,6 +50,7 @@ const studentSchema = new Schema<TStudent, TStudentModel>(
       unique: true,
       ref: "User",
     },
+    id: { type: String, unique: true },
     name: { type: userNameSchema, required: [true, "Name is required"] },
     roll: { type: Number, required: true },
     department: { type: String, required: true },
@@ -138,7 +140,7 @@ studentSchema.pre("findOneAndUpdate", async function (next) {
   const result = await Student.findOne({ user: query });
 
   if (!result?.isDeleted === true) {
-    throw new AppError(httpStatus.NOT_FOUND, "No Student available");
+    throw new AppError(httpStatus.NOT_FOUND, "");
   }
 
   next();
@@ -152,9 +154,8 @@ studentSchema.pre("findOneAndUpdate", async function (next) {
 //     return existingStudent
 // }
 
-studentSchema.virtual('fullName').get(function () {
+studentSchema.virtual("fullName").get(function () {
   return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName;
 });
-
 
 export const Student = model<TStudent, TStudentModel>("Student", studentSchema);
