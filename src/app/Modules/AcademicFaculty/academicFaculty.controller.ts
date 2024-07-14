@@ -3,7 +3,7 @@ import catchAsync from "../../Utils/catchAsync";
 import { sendResponse } from "../../Utils/sendResponse";
 import { AcademicFacultyServices } from "./academicFaculty.services";
 
-const createAcademicFacultyIntoDB = catchAsync(async (req, res, next) => {
+const createAcademicFacultyIntoDB = catchAsync(async (req, res) => {
   const facultyData = req.body;
 
   const result =
@@ -17,7 +17,7 @@ const createAcademicFacultyIntoDB = catchAsync(async (req, res, next) => {
   });
 });
 
-const getAllAcademicFacultyIntoDB = catchAsync(async (req, res, next) => {
+const getAllAcademicFacultyIntoDB = catchAsync(async (req, res) => {
   const result = await AcademicFacultyServices.getAllAcademicFacultyFromDB();
 
   sendResponse(res, {
@@ -28,7 +28,7 @@ const getAllAcademicFacultyIntoDB = catchAsync(async (req, res, next) => {
   });
 });
 
-const getSingleAcademicFacultyIntoDB = catchAsync(async (req, res, next) => {
+const getSingleAcademicFacultyIntoDB = catchAsync(async (req, res) => {
   const result = await AcademicFacultyServices.getSingleAcademicFacultyIntoDB(
     req.params.id,
   );
@@ -40,7 +40,7 @@ const getSingleAcademicFacultyIntoDB = catchAsync(async (req, res, next) => {
   });
 });
 
-const updateAcademicFacultyIntoDB = catchAsync(async (req, res, next) => {
+const updateAcademicFacultyIntoDB = catchAsync(async (req, res) => {
   const result = await AcademicFacultyServices.updateAcademicFacultyIntoDB(
     req.params.id,
     req.body,

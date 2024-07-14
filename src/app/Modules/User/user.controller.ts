@@ -9,19 +9,10 @@ const createStudent = catchAsync(async (req, res) => {
   //   const zodParsedData = StudentZodSchema.parse(studentData);
   const result = await userServices.createStudentIntoDB(password, student);
 
-  if (result) {
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "User Created Successfully ",
-      data: result,
-    });
-  }
-
   sendResponse(res, {
-    statusCode: httpStatus.NOT_FOUND,
-    success: false,
-    message: "User not available",
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Student Created Successfully ",
     data: result,
   });
 });
@@ -38,12 +29,11 @@ const createFacultyIntoDB = catchAsync(async (req, res) => {
 });
 const createAdminIntoDB = catchAsync(async (req, res) => {
   const { password, admin: AdminData } = req.body;
-  console.log(req.body);
   const result = await userServices.createAdminIntoDB(password, AdminData);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Faculty is created successfully",
+    message: "Admin is created successfully",
     data: result,
   });
 });

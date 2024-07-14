@@ -4,12 +4,12 @@ import {
   TLocalTGuardian,
   TStudent,
   TStudentModel,
-  TUserName,
 } from "./student.interface";
 import httpStatus from "http-status";
 import { AppError } from "../../Errors/AppError";
+import { IUserName } from "../../Common/Types";
 
-const userNameSchema = new Schema<TUserName>({
+const userNameSchema = new Schema<IUserName>({
   firstName: {
     type: String,
     required: [true, "First Name is required"],

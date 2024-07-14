@@ -120,8 +120,6 @@ const deleteSingleStudentFromDB = async (id: string) => {
       throw new AppError(httpStatus.BAD_REQUEST, "Failed to delete user");
     }
 
-    console.log({ isUserDeleted, isStudentDeleted });
-
     await session.commitTransaction();
     await session.endSession();
 

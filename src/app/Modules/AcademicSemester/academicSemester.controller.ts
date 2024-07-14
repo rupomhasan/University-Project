@@ -3,7 +3,7 @@ import catchAsync from "../../Utils/catchAsync";
 import { sendResponse } from "../../Utils/sendResponse";
 import { AcademicSemesterServices } from "./academicSemester.services";
 
-const createAcademicSemester = catchAsync(async (req, res, next) => {
+const createAcademicSemester = catchAsync(async (req, res) => {
   const result = await AcademicSemesterServices.createAcademicSemesterIntoDB(
     req.body,
   );
@@ -16,7 +16,7 @@ const createAcademicSemester = catchAsync(async (req, res, next) => {
   });
 });
 
-const getAllSemester = catchAsync(async (req, res, next) => {
+const getAllSemester = catchAsync(async (req, res) => {
   let result;
   if (req.params.id) {
     result = await AcademicSemesterServices.getSingleSemester(req.params.id);
@@ -32,7 +32,7 @@ const getAllSemester = catchAsync(async (req, res, next) => {
   });
 });
 
-const updateSemester = catchAsync(async (req, res, next) => {
+const updateSemester = catchAsync(async (req, res) => {
   const { id } = req.params;
   const updatedSemester = req.body;
 

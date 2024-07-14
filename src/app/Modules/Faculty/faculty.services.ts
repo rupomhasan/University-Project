@@ -56,7 +56,6 @@ const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
 };
 
 const deleteFacultyFromDB = async (id: string) => {
-  console.log(id);
   const session = await mongoose.startSession();
   try {
     session.startTransaction();

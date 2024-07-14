@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Faculty } from "./faculty.model";
 import httpStatus from "http-status";
 import catchAsync from "../../Utils/catchAsync";
 import { sendResponse } from "../../Utils/sendResponse";
 import { FacultyServices } from "./faculty.services";
 
-const getAllFaculty = catchAsync(async (req, res, next) => {
+const getAllFaculty = catchAsync(async (req, res) => {
   const result = await FacultyServices.getAllFacultiesFromDB(req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -15,7 +12,7 @@ const getAllFaculty = catchAsync(async (req, res, next) => {
     data: result,
   });
 });
-const getSingleFaculty = catchAsync(async (req, res, next) => {
+const getSingleFaculty = catchAsync(async (req, res) => {
   const { facultyId } = req.params;
 
   const result = await FacultyServices.getSingleFacultyFromDB(facultyId);
@@ -27,7 +24,7 @@ const getSingleFaculty = catchAsync(async (req, res, next) => {
   });
 });
 
-const updateFaculty = catchAsync(async (req, res, next) => {
+const updateFaculty = catchAsync(async (req, res) => {
   const { facultyId } = req.params;
   const { faculty } = req.body;
   const result = await FacultyServices.updateFacultyIntoDB(facultyId, faculty);
@@ -39,7 +36,7 @@ const updateFaculty = catchAsync(async (req, res, next) => {
   });
 });
 
-const deleteFaculty = catchAsync(async (req, res, next) => {
+const deleteFaculty = catchAsync(async (req, res) => {
   const { facultyId } = req.params;
   const result = await FacultyServices.deleteFacultyFromDB(facultyId);
   sendResponse(res, {

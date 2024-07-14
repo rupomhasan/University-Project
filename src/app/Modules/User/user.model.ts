@@ -2,12 +2,12 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import bcrypt from "bcryptjs";
 import { Schema, model } from "mongoose";
-import { TUser } from "./user.interface";
+import { IUser, UserModel } from "./user.interface";
 import config from "../../config";
 import httpStatus from "http-status";
 import { AppError } from "../../Errors/AppError";
 
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<IUser, UserModel>(
   {
     id: {
       type: String,
@@ -15,10 +15,15 @@ const userSchema = new Schema<TUser>(
     },
     password: {
       type: String,
+      required: true,
+      select: 0,
     },
     needPasswordChange: {
       type: Boolean,
       default: true,
+    },
+    passwordChangedAt: {
+      type: Date,
     },
     role: {
       type: String,
@@ -27,6 +32,7 @@ const userSchema = new Schema<TUser>(
     status: {
       type: String,
       enum: ["in-progress", "blocked"],
+      default: "in-progress",
     },
     isDeleted: {
       type: Boolean,
@@ -60,5 +66,25 @@ userSchema.pre("findOneAndUpdate", async function (next) {
 
   next();
 });
+userSchema.statics.isUserExits = async function (id: string) {
+  return await User.findOne({ id }).select("+password");
+};
 
-export const User = model<TUser>("User", userSchema);
+userSchema.statics.isPasswordMatched = async function (
+  plainTextPassword,
+  hashedPassword,
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
+
+userSchema.statics.isJWTIssueBeforePasswordChanged = function (
+  passwordChangedTimeStamp: Date,
+  jwtIssueTimeStamp: number,
+) {
+  const passwordChangeTime =
+    new Date(passwordChangedTimeStamp).getTime() / 1000;
+
+  return passwordChangeTime > jwtIssueTimeStamp;
+};
+
+export const User = model<IUser, UserModel>("User", userSchema);

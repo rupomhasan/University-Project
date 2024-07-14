@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
-import { TBloodGroup, TGender, TUserName } from "../../Common/Types";
+import { TBloodGroup, TGender, IUserName } from "../../Common/Types";
 
 export type TGuardian = {
   fatherName: string;
@@ -19,7 +19,7 @@ export type TLocalTGuardian = {
 
 export type TStudent = {
   id: string;
-  name: TUserName;
+  name: IUserName;
   user: Types.ObjectId;
   roll: number;
   password: string;

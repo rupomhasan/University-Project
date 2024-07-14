@@ -2,9 +2,9 @@ import mongoose, { Schema, model } from "mongoose";
 
 import { FacultyModel, TFaculty } from "./faculty.interface";
 import { BloodGroup, Gender } from "./faculty.constant";
-import { TUserName } from "../../Common/Types";
+import { IUserName } from "../../Common/Types";
 
-const userNameSchema = new Schema<TUserName>({
+const userNameSchema = new Schema<IUserName>({
   firstName: {
     type: String,
     required: [true, "First Name is required"],

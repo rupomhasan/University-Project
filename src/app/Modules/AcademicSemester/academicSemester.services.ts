@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import { academicSemesterNameCodeMapper } from "./academicSemester.Const";
 import { TAcademicSemester } from "./academicSemester.interface";
 import { AcademicSemester } from "./academicSemester.model";
+import { AppError } from "../../Errors/AppError";
 
 const createAcademicSemesterIntoDB = async (payload: TAcademicSemester) => {
   const result = await AcademicSemester.create(payload);

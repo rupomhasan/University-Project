@@ -9,7 +9,7 @@ export type TBloodGroup =
   | "O+"
   | "O-";
 
-export type TUserName = {
+export type IUserName = {
   firstName: string;
   middleName: string;
   lastName: string;

@@ -1,17 +1,13 @@
 import { Schema, model } from "mongoose";
-import {
-  TAcademicSemester,
-  TMonth,
-  TSemesterCode,
-  TSemesterName,
-} from "./academicSemester.interface";
+
 import {
   month,
   semesterCodeSchema,
   semesterNameSchema,
 } from "./academicSemester.Const";
-import { string } from "joi";
 import httpStatus from "http-status";
+import { AppError } from "../../Errors/AppError";
+import { TAcademicSemester } from "./academicSemester.interface";
 
 const academicSemesterSchema = new Schema<TAcademicSemester>(
   {

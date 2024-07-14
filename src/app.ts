@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from "express";
-
+import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import { notFoundRoute } from "./app/Middlewares/NotFoundRoute";
@@ -10,6 +10,7 @@ const app: Application = express();
 
 // parser
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
 // query

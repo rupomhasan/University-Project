@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
-import { TBloodGroup, TGender, TUserName } from "../../Common/Types";
+import { TBloodGroup, TGender, IUserName } from "../../Common/Types";
 
 export type TFaculty = {
   id: string;
   user: Types.ObjectId;
-  name: TUserName;
+  name: IUserName;
   designation: string;
   gender: TGender;
   dateOfBirth?: Date;
