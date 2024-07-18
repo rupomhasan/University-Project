@@ -20,8 +20,16 @@ const refreshTokenValidationSchema = z.object({
     }),
   }),
 });
+
+const forgot_passwordValidationSchema = z.object({
+  body: z.object({
+    id: z.string(),
+  }),
+});
+
 export const AuthValidation = {
   loginValidationSchema,
   changePasswordValidationSchema,
   refreshTokenValidationSchema,
+  forgot_passwordValidationSchema,
 };

@@ -6,7 +6,6 @@ import { AcademicDepartmentServices } from "./academicDepartment.services";
 const createAcademicDepartmentIntoDB = catchAsync(async (req, res) => {
   const department = req.body;
 
-  console.log(department);
   const result =
     await AcademicDepartmentServices.createAcademicDepartmentIntoDB(department);
 

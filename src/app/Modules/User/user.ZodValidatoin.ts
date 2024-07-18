@@ -9,6 +9,7 @@ const userZodSchema = z.object({
     .max(20, { message: "Password can not be more than 20 characters" })
     .min(6, { message: "password at list 6 char" })
     .optional(),
+  email: z.string().email(),
 });
 
 export const UserValidationSchema = userZodSchema;
