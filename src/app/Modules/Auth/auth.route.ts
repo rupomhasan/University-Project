@@ -3,8 +3,6 @@ import express from "express";
 import ValidateRequest from "../../Middlewares/ValidateRequest";
 import { AuthValidation } from "./auth.validation";
 import { AuthControllers } from "./auth.controller";
-import { USER_ROLE } from "../User/user.constant";
-
 const router = express.Router();
 
 router.post(
@@ -15,7 +13,7 @@ router.post(
 
 router.post(
   "/change-password",
-  auth(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.student),
+  auth("admin", "faculty", "student"),
   ValidateRequest(AuthValidation.changePasswordValidationSchema),
   AuthControllers.changePassword,
 );
@@ -30,6 +28,11 @@ router.post(
   "/forgot-password",
   ValidateRequest(AuthValidation.forgot_passwordValidationSchema),
   AuthControllers.forgot_password,
+);
+router.post(
+  "/reset-password",
+  ValidateRequest(AuthValidation.reset_passwordValidationSchema),
+  AuthControllers.reset_password,
 );
 
 export const AuthRouter = router;

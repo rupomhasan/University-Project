@@ -27,9 +27,17 @@ const forgot_passwordValidationSchema = z.object({
   }),
 });
 
+const reset_passwordValidationSchema = z.object({
+  body: z.object({
+    id: z.string(),
+    newPassword: z.string(),
+  }),
+});
+
 export const AuthValidation = {
   loginValidationSchema,
   changePasswordValidationSchema,
   refreshTokenValidationSchema,
   forgot_passwordValidationSchema,
+  reset_passwordValidationSchema,
 };

@@ -5,7 +5,8 @@ import { AppError } from "../../Errors/AppError";
 import { User } from "../User/user.model";
 import { TLoginUser } from "./auth.interface";
 import config from "../../config";
-import { createToken } from "./auth.utils";
+import { createToken, verifyToken } from "./auth.utils";
+import { sendEmail } from "../../Utils/sendEmail";
 
 const loginUser = async (payload: TLoginUser) => {
   const user = await User.isUserExits(payload.id);
@@ -98,11 +99,10 @@ const changePassword = async (
 
 const refreshToken = async (token: string) => {
   //verify a  token asymmetric
-  const decoded = jwt.verify(
+  const { id, iat } = verifyToken(
     token,
     config.jwt_refresh_secret as string,
   ) as JwtPayload;
-  const { id, iat } = decoded;
   const user = await User.isUserExits(id);
 
   if (!user) {
@@ -164,7 +164,51 @@ const forgot_password = async (id: string) => {
     "10m",
   );
 
-  const resetUILink = `http://localhost:3000?id=${user.id}&token=${resetToken}`;
+  const resetUILink = `${config.reset_pass_ui_link}?id=${user.id}&token=${resetToken}`;
+
+  sendEmail(user, resetUILink);
+};
+
+const reset_Password = async (
+  payload: { id: string; newPassword: string },
+  token: string,
+) => {
+  const user = await User.isUserExits(payload.id);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "This user is not found");
+  }
+  const isDeleted = user?.isDeleted;
+  if (isDeleted) {
+    throw new AppError(httpStatus.FORBIDDEN, "This user is  deleted");
+  }
+
+  const userStatus = user.status;
+  if (userStatus === "blocked") {
+    throw new AppError(httpStatus.FORBIDDEN, "This user is blocked");
+  }
+
+  const decoded = jwt.verify(
+    token,
+    config.jwt_access_secret as string,
+  ) as JwtPayload;
+
+  if (decoded.id !== payload.id) {
+    throw new AppError(httpStatus.FORBIDDEN, "you are forbidden");
+  }
+  const newHashedPassword = await bcrypt.hash(
+    payload?.newPassword,
+    Number(config.bcrypt_salt_rounds),
+  );
+
+  await User.findOneAndUpdate(
+    { id: decoded?.id, role: user?.role },
+    {
+      password: newHashedPassword,
+      needPasswordChange: false,
+      passwordChangedAt: new Date(),
+    },
+  );
 };
 
 export const AuthServices = {
@@ -172,4 +216,5 @@ export const AuthServices = {
   changePassword,
   refreshToken,
   forgot_password,
+  reset_Password,
 };

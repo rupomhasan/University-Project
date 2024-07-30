@@ -6,6 +6,7 @@ import { IUser, UserModel } from "./user.interface";
 import config from "../../config";
 import httpStatus from "http-status";
 import { AppError } from "../../Errors/AppError";
+import { UserStatus } from "./user.constant";
 
 const userSchema = new Schema<IUser, UserModel>(
   {
@@ -37,7 +38,7 @@ const userSchema = new Schema<IUser, UserModel>(
     },
     status: {
       type: String,
-      enum: ["in-progress", "blocked"],
+      enum: UserStatus,
       default: "in-progress",
     },
     isDeleted: {

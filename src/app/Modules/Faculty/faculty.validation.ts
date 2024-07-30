@@ -7,7 +7,7 @@ import {
 
 export const createFacultyValidation = z.object({
   body: z.object({
-    password: z.string().max(26),
+    password: z.string().max(26).optional(),
     faculty: z.object({
       designation: z.string(),
       name: createUserNameValidationSchema,
@@ -20,7 +20,6 @@ export const createFacultyValidation = z.object({
       presentAddress: z.string(),
       permanentAddress: z.string(),
       academicDepartment: z.string(),
-      profileImg: z.string().optional(),
     }),
   }),
 });

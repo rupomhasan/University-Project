@@ -4,7 +4,7 @@ import { BloodGroup, Gender } from "./admin.constant";
 
 export const createAdminValidationSchema = z.object({
   body: z.object({
-    password: z.string().max(28),
+    password: z.string().max(28).optional(),
     admin: z.object({
       designation: z.string(),
       name: createUserNameValidationSchema,
@@ -16,7 +16,6 @@ export const createAdminValidationSchema = z.object({
       bloodGroup: z.enum([...BloodGroup] as [string, ...string[]]),
       presentAddress: z.string(),
       permanentAddress: z.string(),
-      profileImg: z.string(),
     }),
   }),
 });
@@ -39,3 +38,22 @@ export const updateAdminValidationSchema = z.object({
     }),
   }),
 });
+/* 
+{
+  "admin": {
+    "designation": "Administrator",
+    "name": {
+      "firstName": "Rupom",
+      "middleName": "",
+      "lastName": "Hasan"
+    },
+    "gender": "male",
+    "dateOfBirth": "2000-12-13",
+    "email": "rupom.hasan607299@example.com",
+    "contactNo": "01318044328",
+    "emergencyContactNo": "01767404453",
+    "bloodGroup": "O+",
+    "presentAddress": "456 Oak St, Uptown",
+    "permanentAddress": "456 Oak St, Uptown"
+  }
+} */
