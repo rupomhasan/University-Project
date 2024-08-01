@@ -1,9 +1,9 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 import { TAcademicDepartment } from "./academicDepartment.interface";
 import httpStatus from "http-status";
 import { AppError } from "../../Errors/AppError";
 
-const academicDepartmentSchema = new Schema<TAcademicDepartment>(
+const academicDepartmentSchema = new mongoose.Schema<TAcademicDepartment>(
   {
     name: {
       type: String,
@@ -11,31 +11,19 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>(
       unique: true,
     },
     academicFaculty: {
-      type: Schema.Types.ObjectId,
-      ref: "academicFaculty",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AcademicFaculty", // Ensure this matches the model name for AcademicFaculty
       required: true,
     },
   },
   { timestamps: true },
 );
 
-/* academicDepartmentSchema.pre("save", async function (next) {
-  const isDepartmentExists = await AcademicDepartment.findOne({
-    name: this.name
-  });
-
-  if (isDepartmentExists) {
-    throw new Error(
-      "This department is already exist",
-    );
-  }
-
-  next();
-}); */
-
+// Pre-hook to check if a department exists before updating
 academicDepartmentSchema.pre("findOneAndUpdate", async function (next) {
   const query = this.getQuery();
-  const isDepartmentExists = await AcademicDepartment.findOne({ _id: query });
+  const isDepartmentExists =
+    await mongoose.models.AcademicDepartment.findOne(query);
 
   if (!isDepartmentExists) {
     throw new AppError(httpStatus.NOT_FOUND, "This Department does not exist");
@@ -43,7 +31,10 @@ academicDepartmentSchema.pre("findOneAndUpdate", async function (next) {
   next();
 });
 
-export const AcademicDepartment = model<TAcademicDepartment>(
-  "academicDepartment",
+// Register the model with the correct name
+const AcademicDepartment = mongoose.model<TAcademicDepartment>(
+  "AcademicDepartment", // Use a consistent and proper model name
   academicDepartmentSchema,
 );
+
+export { AcademicDepartment };
