@@ -8,7 +8,7 @@ export interface IUser {
   email: string;
   needPasswordChange: boolean;
   passwordChangedAt?: Date;
-  role: "admin" | "student" | "faculty";
+  role: "admin" | "student" | "faculty" | "superAdmin";
   status: string;
   isDeleted: boolean;
   createdAt: Date;

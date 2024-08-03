@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
-import { TBloodGroup, TGender, IUserName } from "../../Common/Types";
+import { TBloodGroup, TGender, TUserName } from "../../Common/Types";
 
 export type TGuardian = {
   fatherName: string;
@@ -10,7 +10,6 @@ export type TGuardian = {
   motherOccupation: string;
   motherContactNo: string;
 };
-
 export type TLocalTGuardian = {
   name: string;
   occupation: string;
@@ -19,16 +18,13 @@ export type TLocalTGuardian = {
 
 export type TStudent = {
   id: string;
-  name: IUserName;
   user: Types.ObjectId;
-  roll: number;
-  password: string;
-  department: string;
-  semester: string;
-  group: string;
+  name: TUserName;
   gender: TGender;
-  contactNo: string;
+  dateOfBirth?: Date;
   email: string;
+  contactNo: string;
+  emergencyContactNo: string;
   bloodGroup?: TBloodGroup;
   presentAddress: string;
   permanentAddress: string;
@@ -37,17 +33,10 @@ export type TStudent = {
   profileImg?: string;
   admissionSemester: Types.ObjectId;
   academicDepartment: Types.ObjectId;
+  academicFaculty: Types.ObjectId;
   isDeleted: boolean;
 };
 // for creating  static
 export interface TStudentModel extends Model<TStudent> {
   isUserExists(id: string): Promise<TStudent | null>;
 }
-
-// for crating instance
-
-// export type TStudentMethod = {
-//     isUserExists(id: string): Promise<TStudent | null>
-// }
-
-// export type TStudentModel = Model<TStudent, {}, TStudentMethod>;

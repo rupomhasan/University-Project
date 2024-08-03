@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
-import { TBloodGroup, TGender, IUserName } from "../../Common/Types";
+import { TBloodGroup, TGender, TUserName } from "../../Common/Types";
 
-export const userNameSchema = new Schema<IUserName>({
+export const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, "First name is required"],

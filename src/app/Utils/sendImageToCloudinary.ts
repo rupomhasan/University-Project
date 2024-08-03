@@ -31,7 +31,6 @@ export const sendImageToCloudinary = async (
 
     console.log(`File ${imageName} has been successfully removed.`);
   });
-  console.log("uploadResult : ", uploadResult);
   return uploadResult;
 };
 

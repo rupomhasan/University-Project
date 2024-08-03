@@ -38,22 +38,3 @@ export const updateAdminValidationSchema = z.object({
     }),
   }),
 });
-/* 
-{
-  "admin": {
-    "designation": "Administrator",
-    "name": {
-      "firstName": "Rupom",
-      "middleName": "",
-      "lastName": "Hasan"
-    },
-    "gender": "male",
-    "dateOfBirth": "2000-12-13",
-    "email": "rupom.hasan607299@example.com",
-    "contactNo": "01318044328",
-    "emergencyContactNo": "01767404453",
-    "bloodGroup": "O+",
-    "presentAddress": "456 Oak St, Uptown",
-    "permanentAddress": "456 Oak St, Uptown"
-  }
-} */

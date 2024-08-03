@@ -1,4 +1,4 @@
-import Joi from "joi";
+/* import Joi from "joi";
 
 // UserName schema
 const userNameValidationSchema = Joi.object({
@@ -105,4 +105,5 @@ const studentValidationSchema = Joi.object({
   }),
 });
 
-export default studentValidationSchema;
+// export default studentValidationSchema;
+ */

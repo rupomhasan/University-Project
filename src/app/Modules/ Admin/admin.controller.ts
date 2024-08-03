@@ -12,7 +12,8 @@ const getAllAdminFromDB = catchAsync(async (req, res, next) => {
     statusCode: httpStatus.OK,
     success: true,
     message: "Admin are retrieved successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 const getSingleAdminFromDB = catchAsync(async (req, res, next) => {

@@ -2,9 +2,9 @@ import mongoose, { Schema, model } from "mongoose";
 
 import { FacultyModel, TFaculty } from "./faculty.interface";
 import { BloodGroup, Gender } from "./faculty.constant";
-import { IUserName } from "../../Common/Types";
+import { TUserName } from "../../Common/Types";
 
-const userNameSchema = new Schema<IUserName>({
+const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, "First Name is required"],
@@ -73,8 +73,13 @@ export const facultySchema = new Schema<TFaculty, FacultyModel>(
     },
     academicDepartment: {
       type: mongoose.Schema.Types.ObjectId,
-      required: [true, "User id is required"],
+      required: [true, "academic Department is required"],
       ref: "AcademicDepartment",
+    },
+    academicFaculty: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: [true, "academic faculty is required"],
+      ref: "AcademicFaculty",
     },
     isDeleted: {
       type: Boolean,

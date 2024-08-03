@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { Date, Model, Types } from "mongoose";
-import { TGender, IUserName, TBloodGroup } from "../../Common/Types";
+import { TGender, TUserName, TBloodGroup } from "../../Common/Types";
 
 export type TAdmin = {
   id: string;
   user: Types.ObjectId;
   designation: string;
-  name: IUserName;
+  name: TUserName;
   gender: TGender;
   dataOfBirth: Date;
   email: string;

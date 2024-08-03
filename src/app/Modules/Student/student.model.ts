@@ -7,9 +7,9 @@ import {
 } from "./student.interface";
 import httpStatus from "http-status";
 import { AppError } from "../../Errors/AppError";
-import { IUserName } from "../../Common/Types";
+import { TUserName } from "../../Common/Types";
 
-const userNameSchema = new Schema<IUserName>({
+const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, "First Name is required"],
@@ -50,40 +50,64 @@ const studentSchema = new Schema<TStudent, TStudentModel>(
       unique: true,
       ref: "User",
     },
-    id: { type: String, unique: true },
+    id: {
+      type: String,
+      required: [true, "ID is required"],
+      unique: true,
+    },
     name: { type: userNameSchema, required: [true, "Name is required"] },
-    roll: { type: Number, required: true },
-    department: { type: String, required: true },
-    semester: { type: String, required: true },
-    group: { type: String, required: true },
     gender: {
       type: String,
       enum: {
         values: ["female", "male", "other"],
-        //  way 1  :    // message: "The gender field can only be one of the following :'male,'female','other' "
         message: "{VALUE} is not valid",
       },
       required: true,
     },
-    contactNo: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    dateOfBirth: { type: Date },
+    contactNo: { type: String, required: [true, "Contact number is required"] },
+    emergencyContactNo: {
+      type: String,
+      required: [true, "Emergency contact number is required"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+    },
     bloodGroup: {
       type: String,
       enum: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
     },
-    permanentAddress: { type: String, required: true },
-    presentAddress: { type: String, required: true },
-    guardian: { type: guardianSchema, required: true },
+    permanentAddress: {
+      type: String,
+      required: [true, "Present address is required"],
+    },
+    presentAddress: {
+      type: String,
+      required: [true, "Permanent address is required"],
+    },
+    guardian: {
+      type: guardianSchema,
+      required: [true, "Guardian information is required"],
+    },
 
-    localGuardian: { type: localTGuardianSchema, required: true },
-    profileImg: { type: String },
+    localGuardian: {
+      type: localTGuardianSchema,
+      required: [true, "LocalGuardian information is required"],
+    },
+    profileImg: { type: String, default: "" },
     admissionSemester: {
       type: Schema.Types.ObjectId,
       ref: "AcademicSemester",
     },
     academicDepartment: {
       type: Schema.Types.ObjectId,
-      ref: "academicDepartment",
+      ref: "AcademicDepartment",
+    },
+    academicFaculty: {
+      type: Schema.Types.ObjectId,
+      ref: "AcademicFaculty",
     },
     isDeleted: {
       type: Boolean,

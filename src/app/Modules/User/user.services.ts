@@ -43,6 +43,15 @@ const createStudentIntoDB = async (
   if (!admissionSemester) {
     throw new AppError(httpStatus.NOT_FOUND, "Admission semester is not found");
   }
+
+  const academicDepartment = await AcademicDepartment.findById(
+    payload.academicDepartment,
+  );
+  if (!academicDepartment) {
+    throw new AppError(httpStatus.NOT_FOUND, "Admission semester is not found");
+  }
+  payload.academicFaculty = academicDepartment.academicFaculty;
+
   // set generated id
 
   const session = await mongoose.startSession();
@@ -60,8 +69,6 @@ const createStudentIntoDB = async (
 
       payload.profileImg = secure_url as string;
     }
-
-    // console.log(payload.profileImg);
 
     // create new user
     const newUser = await User.create([userData], { session, new: true }); // build in
@@ -106,6 +113,7 @@ const createFacultyIntoDB = async (
   if (!academicDepartment) {
     throw new AppError(httpStatus.NOT_FOUND, "AcademicDepartment not found");
   }
+  payload.academicFaculty = academicDepartment.academicFaculty;
 
   const session = await mongoose.startSession();
   try {
@@ -139,8 +147,6 @@ const createFacultyIntoDB = async (
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
-
-    console.error("Error creating faculty:", err);
     throw new Error(err);
   }
 };

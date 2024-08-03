@@ -31,7 +31,8 @@ const getAllSemesterRegistration = catchAsync(
       statusCode: httpStatus.OK,
       success: true,
       message: "Semester Registration is created successfully",
-      data: result,
+      meta: result.meta,
+      data: result.result,
     });
   },
 );
