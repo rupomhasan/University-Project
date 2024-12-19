@@ -21,7 +21,7 @@ const getAllSemester = catchAsync(async (req, res) => {
   if (req.params.id) {
     result = await AcademicSemesterServices.getSingleSemester(req.params.id);
   } else {
-    result = await AcademicSemesterServices.getAllSemester();
+    result = await AcademicSemesterServices.getAllSemester(req.query);
   }
 
   sendResponse(res, {

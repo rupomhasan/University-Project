@@ -38,12 +38,12 @@ const loginUser = async (payload: TLoginUser) => {
   const accessToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
-    "10d",
+    config.jwt_access_token_expire_in as string,
   );
   const refreshToken = createToken(
     jwtPayload,
     config.jwt_refresh_secret as string,
-    "100d",
+    config.jwt_refresh_token_expire_in as string,
   );
 
   return {
@@ -132,7 +132,7 @@ const refreshToken = async (token: string) => {
   const accessToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
-    "10d",
+    config.jwt_access_token_expire_in as string,
   );
   return { accessToken };
 };
@@ -161,7 +161,7 @@ const forgot_password = async (id: string) => {
   const resetToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
-    "10m",
+    config.jwt_refresh_token_expire_in as string,
   );
 
   const resetUILink = `${config.reset_pass_ui_link}?id=${user.id}&token=${resetToken}`;
@@ -187,10 +187,15 @@ const reset_Password = async (
     throw new AppError(httpStatus.FORBIDDEN, "This user is blocked");
   }
 
-  const decoded = jwt.verify(
-    token,
-    config.jwt_access_secret as string,
-  ) as JwtPayload;
+  let decoded;
+  try {
+    decoded = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
+  } catch (error) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Unauthorized");
+  }
 
   if (decoded.id !== payload.id) {
     throw new AppError(httpStatus.FORBIDDEN, "you are forbidden");

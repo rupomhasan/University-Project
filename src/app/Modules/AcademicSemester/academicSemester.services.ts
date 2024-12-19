@@ -1,16 +1,32 @@
 import httpStatus from "http-status";
-import { academicSemesterNameCodeMapper } from "./academicSemester.Const";
+import {
+  academicSemesterNameCodeMapper,
+  AcademicSemesterSearchAbleFields,
+} from "./academicSemester.Const";
 import { TAcademicSemester } from "./academicSemester.interface";
 import { AcademicSemester } from "./academicSemester.model";
 import { AppError } from "../../Errors/AppError";
+import QueryBuilder from "../../builder/QueryBuilder";
 
 const createAcademicSemesterIntoDB = async (payload: TAcademicSemester) => {
   const result = await AcademicSemester.create(payload);
   return result;
 };
 
-const getAllSemester = async () => {
-  return await AcademicSemester.find({});
+const getAllSemester = async (query: Record<string, unknown>) => {
+  const academicSemesterQuery = new QueryBuilder(AcademicSemester.find(), query)
+    .search(AcademicSemesterSearchAbleFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await academicSemesterQuery.modelQuery;
+  const meta = await academicSemesterQuery.countTotal();
+  return {
+    meta,
+    result,
+  };
 };
 const getSingleSemester = async (id: string) => {
   return await AcademicSemester.findOne({ _id: id });

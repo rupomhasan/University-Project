@@ -15,10 +15,16 @@ export const auth = (...requiredRoles: TUserRoll[]) => {
       throw new AppError(httpStatus.UNAUTHORIZED, "Your not authorized");
     }
     //verify a  token asymmetric
-    const decoded = jwt.verify(
-      token,
-      config.jwt_access_secret as string,
-    ) as JwtPayload;
+    let decoded;
+    try {
+      decoded = jwt.verify(
+        token,
+        config.jwt_access_secret as string,
+      ) as JwtPayload;
+    } catch (error) {
+      throw new AppError(httpStatus.UNAUTHORIZED, "Unauthorized");
+    }
+
     req.user = decoded;
     const { role, id, iat } = decoded;
     const user = await User.isUserExits(id);
